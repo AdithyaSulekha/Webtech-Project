@@ -1,0 +1,110 @@
+.card {
+  margin: 1.5rem auto;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-row label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+}
+
+.form-row input {
+  padding: 0.35rem 0.4rem;
+  min-width: 10rem;
+}
+
+.full-row {
+  width: 100%;
+}
+
+.full-row label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+button {
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #5a36d6;
+  background-color: #6540e0;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background-color: #5435c6;
+}
+
+.btn-danger {
+  background-color: red;
+  border-color: red;
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+}
+
+.msg {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.msg.success {
+  color: #0a7f12;
+}
+
+.msg.error {
+  color: #b00020;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+thead {
+  background-color: #f4f2ff;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .card {
+    margin: 1rem 0.75rem;
+  }
+}
+
+select {
+  padding: 0.35rem 0.4rem;
+}

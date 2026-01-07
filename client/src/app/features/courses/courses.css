@@ -1,0 +1,84 @@
+.card {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+thead {
+  background-color: #f4f2ff;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.error {
+  color: #c62828;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.success {
+  color: #2e7d32;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+button {
+  padding: 0.35rem 0.9rem;
+  border-radius: 4px;
+  border: 1px solid #5a36d6;
+  background-color: #6540e0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #5435c6;
+}
+
+.btn-danger {
+  background: red;
+  border: red;
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.form-row label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+}
+
+.form-row input {
+  padding: 0.3rem 0.4rem;
+  min-width: 6rem;
+}

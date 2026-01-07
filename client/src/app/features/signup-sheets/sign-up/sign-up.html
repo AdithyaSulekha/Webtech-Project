@@ -1,0 +1,81 @@
+<div class="card">
+    <h3>Sign Up for a Slot</h3>
+
+    <p class="msg success" *ngIf="sign_msg">{{ sign_msg }}</p>
+    <p class="msg error" *ngIf="sign_error">{{ sign_error }}</p>
+
+    <div class="form-row">
+        <label>
+            Sheet ID
+            <input type="text" [value]="sign_sheetId" (input)="sign_sheetId=$any($event.target).value">
+        </label>
+
+        <label>
+            Slot ID
+            <input type="text" [value]="sign_slotId" (input)="sign_slotId=$any($event.target).value">
+        </label>
+
+        <label>
+            Member ID
+            <input type="text" [value]="sign_memberId" (input)="sign_memberId=$any($event.target).value">
+        </label>
+    </div>
+
+    <button (click)="signUp()">Sign Up</button>
+</div>
+
+<div class="card">
+    <h3>Delete Sign-Up</h3>
+
+    <p class="msg success" *ngIf="del_msg">{{ del_msg }}</p>
+    <p class="msg error" *ngIf="del_error">{{ del_error }}</p>
+
+    <div class="form-row">
+        <label>
+            Sheet ID
+            <input type="text" [value]="del_sheetId" (input)="del_sheetId=$any($event.target).value">
+        </label>
+
+        <label>
+            Member ID
+            <input type="text" [value]="del_memberId" (input)="del_memberId=$any($event.target).value">
+        </label>
+    </div>
+
+    <button class="btn-danger" (click)="removeSignUp()">Delete Sign-Up</button>
+</div>
+
+<div class="card">
+    <h3>List Members of Slot</h3>
+
+    <p class="msg error" *ngIf="list_error">{{ list_error }}</p>
+
+    <div class="form-row">
+        <label>
+            Slot ID
+            <input type="text" [value]="list_slotId" (input)="list_slotId=$any($event.target).value">
+        </label>
+
+        <div class="full-row">
+            <button (click)="listMembers()">List Slot Members</button>
+        </div>
+
+    </div>
+
+    <p *ngIf="loading">Loading…</p>
+
+    <table *ngIf="!loading && slotMembers.length > 0">
+        <thead>
+            <tr>
+                <th>Member ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let m of slotMembers">
+                <td>{{ m.memberId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p *ngIf="!loading && slotMembers.length === 0">No sign-ups found.</p>
+</div>

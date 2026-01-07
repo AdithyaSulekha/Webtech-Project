@@ -1,0 +1,55 @@
+<div class="home-container">
+    <div class="header">
+        <h1>Welcome to CourseHub</h1>
+        <p>Your central place to manage courses, TA schedules, sign-up sheets and grading with ease.</p>
+        <button class="login-btn" (click)="gotoLogin()">Login to Continue</button>
+    </div>
+
+    <hr>
+
+    <h2>Search Sign-Up Sheets</h2>
+
+    <input type="text" placeholder="Enter course" [value]="search ?? ''"
+        (input)="search = $any($event.target).value" />
+
+    <button (click)="doSearch()">Search</button>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <!-- No results -->
+    <p *ngIf="searchClicked && results.length === 0 && !error">
+        No sheets found.
+    </p>
+
+    <!-- Search Results -->
+    <div class="card" *ngIf="results.length > 0">
+        <h3>Search Results</h3>
+
+        <div *ngFor="let r of results" class="result-card" (click)="toggleExpand(r)">
+            <div class="result-header">
+                {{ r.course }}
+            </div>
+
+            <!-- Expanded area -->
+            <div class="expanded" *ngIf="expandedSheet?.id === r.id">
+                <h3>Slots for sheet: {{ expandedSheet.id }}</h3>
+                <table>
+                    <tr>
+                        <th>Start</th>
+                        <th>Duration</th>
+                        <th>Capacity</th>
+                        <th>Sign-ups</th>
+                    </tr>
+
+                    <tr *ngFor="let s of expandedSheet.slots">
+                        <td>{{ s.start | date:'yyyy-MM-dd HH:mm' }}</td>
+                        <td>{{ s.duration }} min</td>
+                        <td>{{ s.capacity }}</td>
+                        <td>{{ s.members.length }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

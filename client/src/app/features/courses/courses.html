@@ -1,0 +1,86 @@
+<!-- Create course -->
+<div class="card">
+  <h3>Create Course</h3>
+
+  <p class="error" *ngIf="errCreate">{{ errCreate }}</p>
+  <p class="success" *ngIf="msgCreate">{{ msgCreate }}</p>
+
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="newTerm" (input)="newTerm = $event.target.valueAsNumber" [disabled]="editMode && disableTermSection" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="newSection" (input)="newSection = $event.target.valueAsNumber" [disabled]="editMode && disableTermSection" />
+    </label>
+
+    <label class="grow">
+      Course name
+      <input type="text" [value]="newCourseName" (input)="newCourseName = $event.target.value" />
+    </label>
+  </div>
+
+  <button type="button" *ngIf="!editMode" (click)="createCourse()">Create Course</button>
+  
+  <button type="button" *ngIf="editMode" (click)="saveChanges()">Save Changes</button>
+  <button type="button" *ngIf="editMode" class="btn-danger" (click)="cancelEdit()">Cancel</button>
+
+</div>
+
+<!-- Delete course -->
+<div class="card">
+  <h3>Delete Course</h3>
+
+  <p class="error" *ngIf="errDelete">{{ errDelete }}</p>
+  <p class="success" *ngIf="msgDelete">{{ msgDelete }}</p>
+
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="delTerm" (input)="delTerm = $event.target.valueAsNumber" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="delSection" (input)="delSection = $event.target.valueAsNumber" />
+    </label>
+  </div>
+
+  <button type="button" (click)="deleteCourse()" class="btn-danger">Delete Course</button>
+</div>
+
+<!-- List courses -->
+<div class="card">
+  <h3>List Courses</h3>
+
+  <p *ngIf="loading">Loading…</p>
+
+  <!--List table -->
+  <table *ngIf="!loading && courses.length > 0" class="course-table">
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th>Section</th>
+        <th>Course name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of courses">
+        <td>{{ c.term }}</td>
+        <td>{{ c.section }}</td>
+        <td>{{ c.course }}</td>
+        <td>
+        <button type="button" (click)="startEdit(c)">
+          Edit
+        </button>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && courses.length === 0">No courses found.</p>
+</div>
+

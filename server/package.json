@@ -1,0 +1,17 @@
+{
+  "name": "lab3-server",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^4.19.2",
+    "fs-extra": "^11.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "nanoid": "^5.0.7"
+  }
+}

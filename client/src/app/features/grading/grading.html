@@ -1,0 +1,156 @@
+<div class="card">
+  <h3>Grading Mode</h3>
+
+  <label>
+    <input type="checkbox" [checked]="gradingMode" (change)="gradingMode = $any($event.target).checked; onModeSwitch()"
+      name="gradingMode" />
+    Enable Grading Mode
+  </label>
+
+  <p class="msg error" *ngIf="modeError">{{ modeError }}</p>
+</div>
+
+<div class="card" *ngIf="gradingMode">
+  <h3>Current Slot Grading</h3>
+
+  <p class="msg error" *ngIf="slotError">{{ slotError }}</p>
+
+  <div *ngIf="currentSlot">
+    <p><strong>Sheet Id:</strong> {{ currentSlot.sheetId }} (Assignment Name - {{ currentSlot.assignment }})</p>
+
+    <p>
+      <strong>Slot Id:</strong>
+      {{ currentSlot.slotId }}
+    </p>
+
+    <p>
+      <strong>Slot No:</strong>
+      {{ currentSlot.slotNumber }}
+    </p>
+
+    <p>
+      <strong>Time:</strong>
+      {{ currentSlot.slotStart | date:'yyyy-MM-dd HH:mm' }} -
+      {{ currentSlot.slotEnd | date:'yyyy-MM-dd HH:mm' }}
+    </p>
+
+    <p><strong>TA:</strong> {{ taName }}</p>
+
+    <div class="nav-buttons" *ngIf="currentSlot">
+      <button (click)="loadPrevious()">Previous Slot</button>
+      <button (click)="loadNext()">Next Slot</button>
+    </div>
+
+    <p class="msg success" *ngIf="inlineMsg">{{ inlineMsg }}</p>
+    <p class="msg error" *ngIf="inlineError">{{ inlineError }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Member</th>
+          <th>Grade</th>
+          <th>Final Grade</th>
+          <th>Comment</th>
+          <th>Comments Added</th>
+          <th>Graded Time</th>
+          <th>Submit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let m of currentSlot.members">
+          <td class="clickable" (click)="openModal(m)">{{ m.first | titlecase}} {{ m.last | titlecase}} ({{ m.memberId
+            }})
+          </td>
+
+          <td>
+            <input type="number" [value]="m.currentGradeInput"
+              (input)="m.currentGradeInput = $any($event.target).valueAsNumber" min="0" max="999" />
+          </td>
+
+          <td>{{ m.finalGrade ?? '' }}</td>
+
+          <td>
+            <input type="text" [value]="m.currentInput || '' " (input)="m.currentInput = $any($event.target).value" />
+          </td>
+
+          <td>
+            {{ formatComments(m.comment) }}
+          </td>
+
+          <td>
+            {{ m.gradedTime ? (m.gradedTime | date:'yyyy-MM-dd HH:mm') : '' }}
+          </td>
+
+          <td>
+            <button (click)="submitInline(m)">Submit Grade</button>
+          </td>
+        </tr>
+
+        <!-- AUDIT ROW FOR EACH MEMBER -->
+        <tr *ngFor="let m of currentSlot.members" class="audit-row">
+          <td colspan="7" *ngIf="m.audit">
+            <div class="audit-box">
+              <strong>Last change :</strong>
+              {{ m.audit?.time | date:'yyyy-MM-dd HH:mm' }}<br />
+
+              <strong>Changed by :</strong> {{ m.audit?.changedBy }}<br />
+
+              <strong>Old Grade :</strong> {{ m.audit?.oldGrade }}
+              → {{ m.audit?.newGrade }}<br />
+
+              <strong>Old Bonus :</strong> {{ m.audit?.oldBonus }}
+              → {{ m.audit?.newBonus }}<br />
+
+              <strong>Old Penalty :</strong> {{ m.audit?.oldPenalty }}
+              → {{ m.audit?.newPenalty }}<br />
+
+              <strong>Comment added :</strong> "{{ m.audit?.commentAdded }}"
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="!currentSlot">No active slot at this time.</p>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()"></div>
+
+  <!-- Modal Box -->
+  <div class="modal-box" *ngIf="showModal">
+    <h3>Grade {{ modalMember.first | titlecase}} {{ modalMember.last | titlecase}} ({{ modalMember.memberId }})</h3>
+
+    <p class="msg error" *ngIf="modalError">{{ modalError }}</p>
+
+    <label>
+      Grade:
+      <input type="number" [value]="modalMember.grade" (input)="modalMember.grade = $any($event.target).valueAsNumber"
+        min="0" max="999">
+    </label>
+
+    <label>
+      Bonus:
+      <input type="number" [value]="modalMember.bonus" (input)="modalMember.bonus = $any($event.target).valueAsNumber"
+        min="-50" max="50">
+    </label>
+
+    <label>
+      Penalty:
+      <input type="number" [value]="modalMember.penalty"
+        (input)="modalMember.penalty = $any($event.target).valueAsNumber" min="-50" max="50">
+    </label>
+
+    <label>
+      Comment:
+      <input type="text" [value]="modalMember.newComment" (input)="modalMember.newComment = $any($event.target).value">
+    </label>
+
+    <div class="modal-buttons">
+      <button (click)="saveModal()">Save</button>
+      <button (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+</div>

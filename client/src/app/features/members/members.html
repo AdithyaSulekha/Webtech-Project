@@ -1,0 +1,139 @@
+<!-- Add members -->
+<div class="card">
+  <h3>Add members to the course</h3>
+
+  <!-- add member messages -->
+  <p class="error" *ngIf="addError">{{ addError }}</p>
+  <p class="success" *ngIf="addSuccess">{{ addSuccess }}</p>
+
+  <!-- Select course -->
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="addTerm" (input)="addTerm = $any($event.target)?.valueAsNumber" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="addSection" (input)="addSection = $any($event.target)?.valueAsNumber" />
+    </label>
+  </div>
+
+  <!-- Member fields -->
+  <div class="form-row">
+    <label>
+      First Name
+      <input type="text" [value]="first" (input)="first = $any($event.target)?.value"  />
+    </label>
+
+    <label>
+      Last Name
+      <input type="text" [value]="last" (input)="last = $any($event.target)?.value" />
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      User Name (ID)
+      <input type="text" maxlength="8" [value]="userName" (input)="userName = $any($event.target)?.value" />
+    </label>
+
+    <label>
+      Password
+      <input type="password" [value]="password" (input)="password = $any($event.target)?.value" />
+    </label>
+  </div>
+
+  <div class="full-row">
+    <button (click)="addMembers()">Add Members</button>
+  </div>
+</div>
+
+
+<!--List members -->
+<div class="card">
+  <h3>List Members</h3>
+
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="term" (input)="term = $any($event.target)?.valueAsNumber" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="section" (input)="section = $any($event.target)?.valueAsNumber" />
+    </label>
+
+
+    <div class="full-row">
+      <button (click)="listMembers()">List Members</button>
+    </div>
+
+  </div>
+
+  <p *ngIf="loading">Loading…</p>
+  <p *ngIf="!loading && listError" class="error">{{ listError }}</p>
+
+  <p *ngIf="!loading && !listError && members.length === 0">
+    No members found for the course.
+  </p>
+
+  <!-- Delete Members messages -->
+  <p class="error" *ngIf="deleteError">{{ deleteError }}</p>
+  <p class="success" *ngIf="deleteSuccess">{{ deleteSuccess }}</p>
+
+  <!-- Members table -->
+  <table *ngIf="!loading && !listError && members.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of members">
+        <td>{{ m.id }}</td>
+        <td>{{ m.first }}</td>
+        <td>{{ m.last }}</td>
+        <td>
+          <button class="btn-danger" (click)="deleteSingleMember(m.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- Bulk Add Members (CSV upload) -->
+<div class="card">
+  <h3>Bulk Add Members (CSV Upload)</h3>
+
+  <p class="error" *ngIf="csvError">{{ csvError }}</p>
+  <p class="success" *ngIf="csvSuccess">{{ csvSuccess }}</p>
+
+  <!-- Select course -->
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="csvTerm" (input)="csvTerm = $any($event.target).valueAsNumber" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="csvSection" (input)="csvSection = $any($event.target).valueAsNumber" />
+    </label>
+  </div>
+
+  <!-- File upload -->
+  <div class="form-row">
+    <label>
+      Upload CSV file:
+      <input class="form-row-upload" type="file" accept=".csv" (change)="onCsvSelected($event)" />
+    </label>
+  </div>
+
+  <button (click)="uploadCsv()">Upload CSV</button>
+</div>

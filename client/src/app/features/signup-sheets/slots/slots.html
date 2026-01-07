@@ -1,0 +1,144 @@
+<div class="card">
+  <h3>Add Slots</h3>
+
+  <p class="msg success" *ngIf="msgAdd">{{ msgAdd }}</p>
+  <p class="msg error" *ngIf="errAdd">{{ errAdd }}</p>
+
+  <!-- Select Course -->
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" (input)="sheetTerm = +$any($event.target).value" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="sheetSection" (input)="sheetSection = +$any($event.target).value" />
+    </label>
+
+    <button class="load-btn" (click)="loadSheetsForAdd()">Load Sheets for Addition and Deletion </button>
+  </div>
+
+  <p *ngIf="sheetsLoaded && availableSheets.length === 0">
+    No sheets found for this course.
+  </p>
+
+  <div class="form-row">
+    <!-- Sheet Dropdown -->
+    <div class="form-row" *ngIf="availableSheets.length > 0">
+      <label>
+        Select Sheet
+        <select (change)="sheetId = $any($event.target).value">
+          <option value="">-- Select Sheet --</option>
+          <option *ngFor="let s of availableSheets" [value]="s.id">
+            {{ s.id }} - {{ s.assignment }}
+          </option>
+        </select>
+      </label>
+    </div>
+
+    <label>Start time (timestamp)
+      <input type="datetime-local" [value]="startLocal" (input)="startLocal = $any($event.target).value" />
+    </label>
+
+    <label>Duration (minutes)
+      <input type="number" [value]="duration" (input)="duration = +$any($event.target).value" />
+    </label>
+
+    <label>Number of slots
+      <input type="number" [value]="count" (input)="count = +$any($event.target).value" />
+    </label>
+
+    <label>Max members per slot
+      <input type="number" [value]="capacity" (input)="capacity = +$any($event.target).value" />
+    </label>
+  </div>
+
+  <button (click)="addSlots()">Add Slots</button>
+</div>
+
+<!-- UPDATE/DELETE SLOT -->
+<div class="card">
+  <h3>Update/Delete Slot</h3>
+
+  <p class="msg success" *ngIf="msgUpdate">{{ msgUpdate }}</p>
+  <p class="msg error" *ngIf="errUpdate">{{ errUpdate }}</p>
+
+  <div class="form-row">
+
+    <label>Start time
+      <input type="datetime-local" [value]="updateStartLocal" (input)="updateStartLocal = $any($event.target).value" />
+    </label>
+
+    <label>Duration (minutes)
+      <input type="number" [value]="updateDuration" (input)="updateDuration = $any($event.target).value" />
+    </label>
+
+    <label>Capacity
+      <input type="number" [value]="updateCapacity" (input)="updateCapacity = $any($event.target).value" />
+    </label>
+  </div>
+
+
+  <button (click)="updateSlot()">Update Slot</button>
+  <button class="btn-danger" (click)="deleteSlot(updateId)">Delete Slot</button>
+</div>
+
+<!-- LIST SLOTS -->
+<div class="card">
+  <h3>List Slots</h3>
+
+  <p class="msg error" *ngIf="list_error">{{ list_error }}</p>
+
+  <div class="form-row">
+    <!-- Sheet dropdown -->
+    <div class="form-row">
+      <label>
+        Select Sheet
+        <select (change)="onSheetSelectedForUpdate($any($event.target).value)">
+          <option value="">-- Select Sheet --</option>
+          <option *ngFor="let s of availableSheets" [value]="s.id">
+            {{ s.id }} - {{ s.assignment }}
+          </option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Slot Dropdown -->
+    <div class="form-row" *ngIf="slots.length > 0">
+      <label>
+        Select Slot
+        <select (change)="updateId = $any($event.target).value; onSlotSelected()">
+          <option value="">-- Select Slot --</option>
+          <option *ngFor="let s of slots" [value]="s.id">
+            {{ s.id }} - {{ s.start | date:'yyyy-MM-dd HH:mm' }}
+          </option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <p *ngIf="loading">Loading…</p>
+
+  <table *ngIf="slots.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Start</th>
+        <th>Duration</th>
+        <th>Capacity</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let s of slots">
+        <td>{{ s.id }}</td>
+        <td>{{ s.start | date:'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ s.duration }}</td>
+        <td>{{ s.capacity }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && slots.length === 0">No slots found.</p>
+</div>

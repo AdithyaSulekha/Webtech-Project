@@ -1,0 +1,17 @@
+<div class="card">
+  <h2>Login</h2>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <label>Email
+    <input type="email" [value]="email ?? ''" (input)="email = $any($event.target).value" />
+  </label>
+
+  <label>Password
+    <input type="password" [value]="password ?? ''" (input)="password = $any($event.target).value" />
+  </label>
+
+  <button (click)="login()">Login</button>
+</div>
+
+

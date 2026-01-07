@@ -1,0 +1,83 @@
+<div class="admin-container">
+
+    <!-- SECTION: Add User -->
+    <div class="card">
+        <h3>Add User</h3>
+
+        <p class="err" *ngIf="addErr">{{ addErr }}</p>
+        <p class="msg" *ngIf="addMsg">{{ addMsg }}</p>
+
+        <label>Email</label>
+        <input [value]="newEmail" (input)="newEmail = $any($event.target).value" type="text">
+
+        <label>Password</label>
+        <input [value]="newPassword" (input)="newPassword = $any($event.target).value" type="password">
+
+        <label>Role</label>
+        <select [value]="newRole" (input)="newRole = $any($event.target).value">
+            <option value="TA">Teaching Assistant</option>
+            <option value="STUDENT">Student</option>
+        </select>
+
+        <div *ngIf="newRole === 'STUDENT'" class="student-fields">
+            <label>Member ID</label>
+            <input [value]="newMemberId" (input)="newMemberId = $any($event.target).value" type="text">
+        
+            <label>Term</label>
+            <input [value]="newTerm" (input)="newTerm = +$any($event.target).value" type="number">
+        
+            <label>Section</label>
+            <input [value]="newSection" (input)="newSection = +$any($event.target).value" type="number">
+        
+        </div>
+        <button (click)="addUser()">Add User</button>
+    </div>
+
+    <!-- SECTION: Reset Password -->
+    <div class="card">
+        <h3>Reset Password</h3>
+
+        <p class="err" *ngIf="resetErr">{{ resetErr }}</p>
+        <p class="msg" *ngIf="resetMsg">{{ resetMsg }}</p>
+
+        <label>Email</label>
+        <input [value]="resetEmail" (input)="resetEmail = $any($event.target).value" type="text">
+
+        <label>New Password</label>
+        <input [value]="resetNewPassword" (input)="resetNewPassword = $any($event.target).value" type="password">
+
+        <button (click)="resetPassword()">Reset Password</button>
+    </div>
+
+    <!-- SECTION: All Users -->
+    <div class="card">
+        <h3>List Users</h3>
+
+        <p *ngIf="loading">Loading users...</p>
+        <p class="err" *ngIf="listErr">{{ listErr }}</p>
+        <p class="msg" *ngIf="listMsg">{{ listMsg }}</p>
+
+        <table *ngIf="!loading">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>First Login</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let u of users">
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.role }}</td>
+                    <td>{{ u.firstLogin ? 'YES' : 'NO' }}</td>
+                    <td>
+                        <button class="btn-danger" (click)="removeUser(u.email)">Remove User</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

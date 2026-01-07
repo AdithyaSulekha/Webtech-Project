@@ -1,0 +1,49 @@
+<header class="app-header">
+  <h1>CourseHub</h1>
+  <p class="subtitle">Course Management . Sign-up Scheduling . Grading . TA Workflows </p>
+  <nav class="nav" *ngIf="showNav">
+    <!-- ADMIN & TA -->
+    <a *ngIf="isTA || isAdmin" routerLink="/courses" routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }">
+      Courses
+    </a>
+
+    <a *ngIf="isTA || isAdmin" routerLink="/members" routerLinkActive="active">
+      Members
+    </a>
+
+    <a *ngIf="isTA || isAdmin" routerLink="/signup-sheets" routerLinkActive="active">
+      Sign-up Sheets
+    </a>
+
+    <a *ngIf="isTA || isAdmin" routerLink="/slots" routerLinkActive="active">
+      Slots
+    </a>
+
+    <a *ngIf="isTA || isAdmin" routerLink="/grading" routerLinkActive="active">
+      Grading
+    </a>
+
+    <!-- STUDENT ONLY -->
+    <a *ngIf="isStudent" routerLink="/sign-up" routerLinkActive="active">
+      Sign-Up
+    </a>
+    <a *ngIf="isStudent" routerLink="/student" routerLinkActive="active">
+      Student Dashboard
+    </a>
+
+    <!-- ADMIN ONLY -->
+    <a *ngIf="isAdmin" routerLink="/admin" routerLinkActive="active">
+      Admin Panel
+    </a>
+
+    <!-- LOGOUT -->
+    <a class="logout" (click)="logout()">
+      Logout
+    </a>
+  </nav>
+</header>
+
+<main class="main">
+  <router-outlet></router-outlet>
+</main>

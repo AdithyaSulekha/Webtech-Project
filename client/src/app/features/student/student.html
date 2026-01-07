@@ -1,0 +1,67 @@
+<div class="student-container">
+
+  <!-- GLOBAL MESSAGES -->
+  <p class="msg success" *ngIf="msg">{{ msg }}</p>
+  <p class="msg error" *ngIf="err">{{ err }}</p>
+
+  <!-- MY SLOTS SECTION             -->
+  <h2>My Signed-Up Slots</h2>
+
+  <div *ngIf="mySlots.length === 0" class="empty">
+    You have not signed up for any slots.
+  </div>
+
+  <table *ngIf="mySlots.length > 0">
+    <thead>
+      <tr>
+        <th>Assignment</th>
+        <th>Start Time</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let s of mySlots">
+        <td>{{ s.assignment }}</td>
+        <td>{{ s.startStr | date:'yyyy-MM-dd HH:mm' }}</td>
+        <td>
+          <button class="leave" (click)="leave(s)">Leave Slot</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <!-- AVAILABLE SLOTS SECTION      -->
+  <h2>Available Slots</h2>
+
+  <div *ngIf="availableSlots.length === 0" class="empty">
+    No available slots at this time.
+  </div>
+
+  <table *ngIf="availableSlots.length > 0">
+    <thead>
+      <tr>
+        <th>Assignment</th>
+        <th>Start Time</th>
+        <th>Capacity</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let s of availableSlots">
+        <td>{{ s.assignment }}</td>
+        <td>{{ s.startStr | date:'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ s.members.length }} / {{ s.capacity }}</td>
+        <td>
+            <button [disabled]="isAlreadySignedUp(s)" class="signup-btn" (click)="signUp(s)">
+                Sign Up
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

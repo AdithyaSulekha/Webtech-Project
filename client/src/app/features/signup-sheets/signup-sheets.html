@@ -1,0 +1,133 @@
+<!-- CREATE SIGN-UP SHEET -->
+<div class="card">
+  <h3>Create Sign-up Sheet</h3>
+
+  <p class="msg success" *ngIf="createMsg">{{ createMsg }}</p>
+  <p class="msg error" *ngIf="createError">{{ createError }}</p>
+
+  <div class="form-row">
+    <label>
+      Term
+    <input type="number" [value]="createTerm" (input)="createTerm = $any($event.target).value ? +$any($event.target).value : createTerm" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="createSection" (input)="createSection = $any($event.target).value ? +$any($event.target).value : createSection" />
+    </label>
+
+    <label>
+      Assignment Name
+      <input type="text" [value]="assignment" (input)="assignment = $any($event.target).value" placeholder="Lab 1, Project Demo, ..." />
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      Not Before (date)
+      <input type="date" [value]="nbLocal" (input)="nbLocal = $any($event.target).value" />
+    </label>
+
+    <label>
+      Not After (date)
+      <input type="date" [value]="naLocal" (input)="naLocal = $any($event.target).value" />
+    </label>
+  </div>
+
+  <div class="full-row">
+    <button (click)="createSheet()">Create Sheet</button>
+  </div>
+</div>
+
+<!-- DELETE SIGN-UP SHEET -->
+<div class="card">
+  <h3>Delete Sign-up Sheet</h3>
+
+  <p class="msg success" *ngIf="deleteMsg">{{ deleteMsg }}</p>
+  <p class="msg error" *ngIf="deleteError">{{ deleteError }}</p>
+
+  <!-- Select course -->
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="delTerm" (input)="delTerm = +$any($event.target).value" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="delSection" (input)="delSection = +$any($event.target).value" />
+    </label>
+
+    <div class="full-row">
+      <button (click)="loadSheetsForDeletion()">Load Sheets for Deletion</button>
+    </div>
+  </div>
+
+  <!-- Sheet selection dropdown -->
+  <div class="form-row" *ngIf="deleteSheets.length > 0">
+    <label>
+      Select Sheet
+      <select [value]="deleteId" (change)="deleteId = $any($event.target).value">
+        <option value="">-- Select Sheet --</option>
+        <option *ngFor="let s of deleteSheets" [value]="s.id">
+          {{ s.id }} - {{ s.assignment }}
+        </option>
+      </select>
+    </label>
+
+    <div class="full-row">
+      <button class="btn-danger" (click)="onDeleteSheet()">Delete Sheet</button>
+    </div>
+  </div>
+
+  <p *ngIf="deleteSheets.length === 0 && deleteSheetsLoaded">No sheets found for this course.</p>
+</div>
+
+
+<!-- LIST SIGN-UP SHEETS -->
+<div class="card">
+  <h3>List Sheets</h3>
+
+  <div class="form-row">
+    <label>
+      Term
+      <input type="number" [value]="listTerm" (input)="listTerm = $any($event.target).value ? +$any($event.target).value : listTerm" />
+    </label>
+
+    <label>
+      Section
+      <input type="number" [value]="listSection" (input)="listSection = $any($event.target).value ? +$any($event.target).value : listSection" />
+    </label>
+
+    <div class="full-row">
+        <button (click)="listSheets()">List Sheets</button>
+    </div>
+    
+  </div>
+
+  <p *ngIf="listError" class="msg error">{{ listError }}</p>
+
+  <p *ngIf="loading">Loading…</p>
+
+  <table *ngIf="!loading && sheets.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Assignment Name</th>
+        <th>Not Before</th>
+        <th>Not After</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let s of sheets">
+        <td>{{ s.id }}</td>
+        <td>{{ s.assignment }}</td>
+        <td>{{ s.notBefore ? (s.notBefore | date:'yyyy-MM-dd') : '' }}</td>
+        <td>{{ s.notAfter  ? (s.notAfter  | date:'yyyy-MM-dd') : '' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && sheets.length === 0">No sheets found.</p>
+</div>
